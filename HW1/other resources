@@ -2,3 +2,15 @@ github csv links
 https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/052b65a9a7d60bac743dfc58b89e2eb377b01eea/countries-etc-datapoints/ddf--datapoints--income_per_person_gdppercapita_ppp_inflation_adjusted--by--geo--time.csv
 
 https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv
+
+How to merge the extra labels into the pre-existing data 
+urlMerge = 'https://raw.githubusercontent.com/eroskopf/DataScience/main/HW1/countrieslabelled.csv'
+extralabels = pd.read_csv(urlMerge)
+extralabels = extralabels[['alpha3','en']]
+
+def mergeDF(year):
+    mergeddf = income[income["time"] == year]
+    mergeddf = mergeddf.merge(extralabels, left_on="geo", right_on="alpha3")
+    mergeddf = mergeddf.merge(life_exp[life_exp["time"]==year])
+    mergeddf = mergeddf.merge(countries, left_on="en", right_on="Country")
+    return mergeddf
